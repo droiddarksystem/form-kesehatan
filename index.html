@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1a73e8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Form Kesehatan">
+  <link rel="manifest" href="manifest.json">
+  <title>Form Kesehatan - Amos</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      color: white;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .header h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+    .header p { font-size: 13px; opacity: 0.9; }
+    .content { padding: 24px 20px; }
+    .login-box input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .info {
+      background: #e8f0fe;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #1a73e8;
+    }
+    .info strong { display: block; margin-bottom: 8px; color: #0d47a1; }
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px dashed #c5d8f8;
+    }
+    .data-row:last-child { border-bottom: none; }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:active { background: #0d47a1; }
+    .note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .hidden { display: none; }
+    .error {
+      color: #d93025;
+      font-size: 13px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>Pernyataan Kesehatan</h1>
+      <p>Province Sumbagut • Amos</p>
+    </div>
+
+    <div class="content">
+      <!-- LOGIN -->
+      <div id="loginSection">
+        <p style="text-align:center;margin-bottom:16px;color:#555;">Masukkan password untuk melanjutkan</p>
+        <div class="login-box">
+          <input type="password" id="passwordInput" placeholder="Password" autofocus>
+          <div id="errorMsg" class="error hidden">Password salah</div>
+          <button onclick="checkLogin()">Masuk</button>
+        </div>
+        <p class="note">Hanya untuk penggunaan pribadi</p>
+      </div>
+
+      <!-- FORM -->
+      <div id="formSection" class="hidden">
+        <div class="info">
+          <strong>Data yang akan dikirim:</strong>
+          <div class="data-row"><span>Ops ID</span> <span>787955</span></div>
+          <div class="data-row"><span>Nama</span> <span>Amos</span></div>
+          <div class="data-row"><span>Vendor</span> <span>UGBM</span></div>
+          <div class="data-row"><span>Facility</span> <span>Siborong - Borong DC</span></div>
+          <div class="data-row"><span>Pertanyaan 1</span> <span>Ya</span></div>
+          <div class="data-row"><span>Pertanyaan 2</span> <span>Ya</span></div>
+        </div>
+
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLScc2eI-FdP0CqItrlPokiMZixmbW4_6MwXcnncaQ1lDkvLt9Q/formResponse" method="POST" target="_blank">
+          <input type="hidden" name="entry.1397377572" value="787955">
+          <input type="hidden" name="entry.2105408745" value="Amos">
+          <input type="hidden" name="entry.1962662148" value="UGBM">
+          <input type="hidden" name="entry.1870010043" value="Siborong - Borong DC">
+          <input type="hidden" name="entry.346681653" value="Ya">
+          <input type="hidden" name="entry.206075985" value="Ya">
+          <button type="submit">Kirim Form Sekarang</button>
+        </form>
+
+        <p class="note">
+          Pastikan sudah login Google<br>
+          <strong>jhon.walker720@gmail.com</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Ganti password di bawah ini sesuai keinginanmu
+    const CORRECT_PASSWORD = "amos123";
+
+    function checkLogin() {
+      const input = document.getElementById("passwordInput").value;
+      if (input === CORRECT_PASSWORD) {
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("formSection").classList.remove("hidden");
+        // Simpan status login di session
+        sessionStorage.setItem("loggedIn", "true");
+      } else {
+        document.getElementById("errorMsg").classList.remove("hidden");
+      }
+    }
+
+    // Cek apakah sudah login sebelumnya
+    if (sessionStorage.getItem("loggedIn") === "true") {
+      document.getElementById("loginSection").classList.add("hidden");
+      document.getElementById("formSection").classList.remove("hidden");
+    }
+
+    // Enter key untuk login
+    document.getElementById("passwordInput").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") checkLogin();
+    });
+
+    // Register Service Worker untuk PWA
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(console.log);
+    }
+  </script>
+</body>
+</html>
